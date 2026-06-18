@@ -1,0 +1,267 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>同心备孕</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <section class="auth-screen" id="authScreen">
+      <div class="auth-card">
+        <div class="brand compact">
+          <div class="brand-mark">同</div>
+          <div>
+            <h1>同心备孕</h1>
+            <p>手机号注册登录，本机保存数据</p>
+          </div>
+        </div>
+        <div class="auth-tabs">
+          <button class="auth-tab active" data-auth-mode="login">登录</button>
+          <button class="auth-tab" data-auth-mode="register">注册</button>
+        </div>
+        <form id="authForm" class="auth-form">
+          <label>
+            手机号
+            <input id="phoneInput" type="tel" inputmode="numeric" maxlength="11" placeholder="请输入 11 位手机号" required />
+          </label>
+          <label>
+            密码
+            <input id="passwordInput" type="password" minlength="6" placeholder="至少 6 位密码" required />
+          </label>
+          <fieldset class="role-field" id="roleField">
+            <legend>选择版本</legend>
+            <label>
+              <input type="radio" name="role" value="female" checked />
+              女方版
+            </label>
+            <label>
+              <input type="radio" name="role" value="male" />
+              男方版
+            </label>
+          </fieldset>
+          <button class="primary-btn full" type="submit" id="authSubmit">登录</button>
+          <p class="form-message" id="authMessage"></p>
+        </form>
+        <p class="auth-note">当前版本不发送验证码，账号密码仅保存在本机浏览器，适合原型体验。</p>
+      </div>
+    </section>
+
+    <main class="app-shell is-locked" id="appShell">
+      <aside class="sidebar" aria-label="主导航">
+        <div class="brand">
+          <div class="brand-mark">同</div>
+          <div>
+            <h1>同心备孕</h1>
+            <p id="activeUser">未登录</p>
+          </div>
+        </div>
+        <nav class="tabs" aria-label="功能区">
+          <button class="tab active" data-tab="home">总览</button>
+          <button class="tab" data-tab="calendar">周期日历</button>
+          <button class="tab" data-tab="knowledge">备孕知识</button>
+          <button class="tab" data-tab="questions">问题应对</button>
+          <button class="tab" data-tab="checkin">每日打卡</button>
+          <button class="tab" data-tab="couple">情侣账号</button>
+          <button class="tab" data-tab="community">社区瞬间</button>
+          <button class="tab" data-tab="birth">临产与产后</button>
+        </nav>
+        <section class="notice">
+          <strong>重要提示</strong>
+          <p>本软件用于健康管理与知识整理，不能替代医生诊断。出血、剧烈腹痛、胎动明显异常、高热、严重头痛或呼吸困难时，请立即就医。</p>
+        </section>
+        <button class="secondary-btn" id="logoutBtn">退出登录</button>
+      </aside>
+
+      <section class="content">
+        <section class="panel active" id="home">
+          <div class="hero">
+            <div>
+              <p class="eyebrow">备孕 · 周期 · 打卡</p>
+              <h2>把备孕变成两个人每天都能完成的小事</h2>
+              <p>输入末次月经后，软件会估算经期、易孕期和排卵日，并把知识、问题处理、打卡和临产产后提醒放在一起。</p>
+            </div>
+            <div class="status-card">
+              <span>今日打卡</span>
+              <strong id="streakCount">0/0</strong>
+              <small id="todayState">今天还未完成</small>
+            </div>
+          </div>
+
+          <div class="grid three">
+            <article class="tile">
+              <span class="tile-icon">01</span>
+              <h3 id="versionTitle">分性别版本</h3>
+              <p id="versionCopy">注册时选择女方版或男方版，软件会按不同角色显示重点任务。</p>
+            </article>
+            <article class="tile">
+              <span class="tile-icon">02</span>
+              <h3>共同准备</h3>
+              <p>女方补充、周期记录与男方睡眠、运动、戒烟酒一起纳入每日打卡。</p>
+            </article>
+            <article class="tile">
+              <span class="tile-icon">03</span>
+              <h3>问题分流</h3>
+              <p>常见备孕问题提供观察、咨询和及时就医的处理方向。</p>
+            </article>
+          </div>
+        </section>
+
+        <section class="panel" id="calendar">
+          <div class="section-head">
+            <div>
+              <p class="eyebrow">Calendar</p>
+              <h2>排卵预测与经期/易孕期日历</h2>
+            </div>
+          </div>
+          <div class="planner">
+            <form class="cycle-form" id="cycleForm">
+              <label>
+                末次月经开始日
+                <input id="lastPeriodInput" type="date" required />
+              </label>
+              <label>
+                平均周期
+                <input id="cycleLengthInput" type="number" min="21" max="45" value="28" required />
+              </label>
+              <label>
+                经期天数
+                <input id="periodLengthInput" type="number" min="2" max="10" value="5" required />
+              </label>
+              <button class="primary-btn" type="submit">生成日历</button>
+            </form>
+            <div class="prediction-card" id="predictionCard">
+              <span>预测结果</span>
+              <strong>请先填写周期信息</strong>
+              <p>预测仅用于备孕记录，周期不规律或长期备孕未孕时建议就医评估。</p>
+            </div>
+          </div>
+          <div class="calendar-legend">
+            <span><i class="dot period"></i>经期</span>
+            <span><i class="dot fertile"></i>易孕期</span>
+            <span><i class="dot ovulation"></i>预测排卵日</span>
+            <span><i class="dot today"></i>今天</span>
+          </div>
+          <div class="month-head">
+            <button class="icon-btn" id="prevMonth" type="button">‹</button>
+            <h3 id="monthTitle">本月</h3>
+            <button class="icon-btn" id="nextMonth" type="button">›</button>
+          </div>
+          <div class="calendar-grid" id="cycleCalendar"></div>
+        </section>
+
+        <section class="panel" id="knowledge">
+          <div class="section-head">
+            <div>
+              <p class="eyebrow">Knowledge</p>
+              <h2>男女双方备孕知识</h2>
+            </div>
+            <div class="segment" role="tablist" aria-label="知识分类">
+              <button class="segment-btn active" data-person="female">女方</button>
+              <button class="segment-btn" data-person="male">男方</button>
+              <button class="segment-btn" data-person="couple">双方</button>
+            </div>
+          </div>
+          <div class="knowledge-list" id="knowledgeList"></div>
+        </section>
+
+        <section class="panel" id="questions">
+          <div class="section-head">
+            <div>
+              <p class="eyebrow">Questions</p>
+              <h2>备孕过程中常见问题</h2>
+            </div>
+            <input class="search" id="questionSearch" type="search" placeholder="搜索：叶酸、排卵、压力、久备不孕..." />
+          </div>
+          <div class="qa-list" id="qaList"></div>
+        </section>
+
+        <section class="panel" id="checkin">
+          <div class="section-head">
+            <div>
+              <p class="eyebrow">Daily</p>
+              <h2>男女分区备孕打卡</h2>
+            </div>
+            <button class="secondary-btn" id="resetToday">重置今日</button>
+          </div>
+          <div class="cycle-advice" id="cycleAdvice"></div>
+          <div class="checkin-grid" id="checkinGrid"></div>
+          <div class="journal">
+            <label for="noteInput">今日备注</label>
+            <textarea id="noteInput" rows="5" placeholder="记录体温、排卵试纸、心情、同房安排或医生建议..."></textarea>
+            <button class="primary-btn" id="saveNote">保存备注</button>
+          </div>
+        </section>
+
+        <section class="panel" id="couple">
+          <div class="section-head">
+            <div>
+              <p class="eyebrow">Couple</p>
+              <h2>情侣账号绑定</h2>
+            </div>
+          </div>
+          <div class="couple-grid">
+            <form class="couple-card" id="partnerForm">
+              <h3>绑定对方手机号</h3>
+              <p>对方需要先在本机注册账号。绑定后，可查看对方今天是否完成打卡。</p>
+              <label>
+                对方手机号
+                <input id="partnerPhoneInput" type="tel" inputmode="numeric" maxlength="11" placeholder="请输入对方 11 位手机号" />
+              </label>
+              <button class="primary-btn" type="submit">保存绑定</button>
+              <p class="form-message" id="partnerMessage"></p>
+            </form>
+            <section class="couple-card" id="partnerStatus">
+              <h3>对方今日状态</h3>
+              <p>还未绑定情侣账号。</p>
+            </section>
+          </div>
+        </section>
+
+        <section class="panel" id="community">
+          <div class="section-head">
+            <div>
+              <p class="eyebrow">Community</p>
+              <h2>社区模式</h2>
+            </div>
+            <div class="segment" role="tablist" aria-label="社区筛选">
+              <button class="community-filter active" data-filter="all">全部</button>
+              <button class="community-filter" data-filter="备孕日常">备孕日常</button>
+              <button class="community-filter" data-filter="排卵记录">排卵记录</button>
+              <button class="community-filter" data-filter="情绪支持">情绪支持</button>
+              <button class="community-filter" data-filter="经验分享">经验分享</button>
+            </div>
+          </div>
+          <form class="moment-form" id="momentForm">
+            <label>
+              分享此刻瞬间
+              <textarea id="momentInput" rows="4" maxlength="240" placeholder="写下今天的备孕记录、心情、鼓励或经验..."></textarea>
+            </label>
+            <div class="moment-actions">
+              <select id="momentTag">
+                <option value="备孕日常">备孕日常</option>
+                <option value="排卵记录">排卵记录</option>
+                <option value="情绪支持">情绪支持</option>
+                <option value="经验分享">经验分享</option>
+              </select>
+              <button class="primary-btn" type="submit">发布瞬间</button>
+            </div>
+            <p class="form-message" id="momentMessage"></p>
+          </form>
+          <div class="moment-list" id="momentList"></div>
+        </section>
+
+        <section class="panel" id="birth">
+          <div class="section-head">
+            <div>
+              <p class="eyebrow">Birth</p>
+              <h2>临产前与产后注意事项</h2>
+            </div>
+          </div>
+          <div class="timeline" id="birthTimeline"></div>
+        </section>
+      </section>
+    </main>
+    <script src="app.js"></script>
+  </body>
+</html>
